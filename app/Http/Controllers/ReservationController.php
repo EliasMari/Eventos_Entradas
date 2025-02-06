@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\Reservation;
 use Illuminate\Http\Request;
 
-class EventController extends Controller
+class ReservationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +14,8 @@ class EventController extends Controller
     public function index()
     {
         $events = Event::all(); // Obtiene todos los eventos
-        return view('dashboard', compact('events')); // Pasa los eventos a la vista
+        $reservations = Reservation::where('user_id', auth()->user()->id)->get(); // Obtiene todas las reservas
+        return view('events.myevents', compact('events', 'reservations'));
     }
 
     /**
@@ -21,27 +23,28 @@ class EventController extends Controller
      */
     public function create()
     {
-        return view('events.create');
+        
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $request->validate([]);
-        $event = $request->except('_token');
-        Event::create($event);
-        return redirect('dashboard');
-        // return response()->json($event);
-    }
+{
+    $reservation = $request->except('_token', '_method');
+    $reservation['user_id'] = auth()->user()->id; // Asegúrate de que esto sea correcto
+    Reservation::create($reservation); // Usa create en lugar de insert para que se manejen los timestamps automáticamente
+
+    return redirect('dashboard');
+;
+}
 
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-        //
+        
     }
 
     /**
@@ -49,8 +52,7 @@ class EventController extends Controller
      */
     public function edit(string $id)
     {
-        $event = Event::findOrFail($id);
-        return view('events.edit', compact('event'));
+        
     }
 
     /**
@@ -58,9 +60,7 @@ class EventController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $event = $request->except('_token', '_method');
-        Event::where('id', $id)->update($event);
-        return redirect('dashboard');
+        
     }
 
     /**
@@ -68,8 +68,6 @@ class EventController extends Controller
      */
     public function destroy(string $id)
     {
-        $event = Event::findOrFail($id);
-        $event->delete();
-        return redirect('dashboard');
+        
     }
 }

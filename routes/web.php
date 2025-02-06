@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ReservationController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,5 +23,11 @@ Route::middleware('auth')->group(function () {
 Route::get('/dashboard', [EventController::class, 'index'])->name('dashboard');
 Route::get('/myevents', [EventController::class, 'myevents'])->name('myevents');
 Route::resource('events', EventController::class);
+
+// Ruta para crear una nueva reserva con un ID de evento específico
+Route::get('reservations/{event_id}', [ReservationController::class, 'store'])->name('reservations.store');
+
+// Ruta de recurso para las reservas
+Route::resource('reservations', ReservationController::class)->except(['create']);
 
 require __DIR__.'/auth.php';

@@ -14,18 +14,22 @@
                 <ul>
                 @foreach($events as $event)
                     <div class="event-item mb-4 p-4 border rounded">
-                        <img src="{{ asset($event->image) }}" alt="{{ $event->title }}" class="w-full h-48 object-cover rounded">
+                        <img src="{{ asset($event->image_path) }}" alt="{{ $event->title }}" class="w-full h-48 object-cover rounded">
                         <h3 class="text-lg font-semibold">{{ $event->title }}</h3>
                         <p>Precio: ${{ $event->price }}</p>
-                        <p>Tickets disponibles: {{ $event->tickets }}</p>
-                        <p>Fecha: {{ $event->date->format('d-m-Y') }}</p>
+                        <p>Tickets disponibles: {{ $event->available_tickets }}</p>
+                        <p>Fecha: {{ $event->date_time }}</p>
                         <p>Localización: {{ $event->location }}</p>
-                        <a href="{{ route('payment', $event->id) }}" class="inline-block mt-2 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
-                            Pagar
-                        </a>
-
+                        <form action="{{ route('reservations.store') }}" method="POST" class="inline-block mt-2">
+                                @csrf
+                                <input type="hidden" name="event_id" value="{{ $event->id }}">
+                                <button type="submit" class="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600">
+                                    Añadir
+                                </button>
+                            </form>
+                        <br>
                         @if(auth()->user() && auth()->user()->hasRole('admin'))
-                            <a href="{{ route('events.edit', $event->id) }}" class="inline-block mt-2 bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-600">
+                            <a href="{{ route('events.edit', $event->id) }}" class="inline-block mt-2 bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600">
                                 Editar
                             </a>
                             
