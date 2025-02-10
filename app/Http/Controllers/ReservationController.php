@@ -33,7 +33,9 @@ class ReservationController extends Controller
 {
     $reservation = $request->except('_token', '_method');
     $reservation['user_id'] = auth()->user()->id; // Asegúrate de que esto sea correcto
+    $reservation['total_price'] = $reservation['num_tickets'] * $reservation['price'];
     Reservation::create($reservation); // Usa create en lugar de insert para que se manejen los timestamps automáticamente
+    Event::where('id', $reservation['event_id'])->decrement('available_tickets', $reservation['num_tickets']);
 
     return redirect('dashboard');
 ;
@@ -50,9 +52,10 @@ class ReservationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        
+        $reservation = Reservation::findOrFail($id);
+        return view('events.payment', compact('reservation'));
     }
 
     /**
@@ -60,7 +63,9 @@ class ReservationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        $reservation = Reservation::findOrFail($id);
+        $reservation->update(['status' => 'confirmed']);
+        return redirect()->route('reservations.index')->with('success', 'Reserva actualizada con éxito.');
     }
 
     /**
@@ -68,6 +73,9 @@ class ReservationController extends Controller
      */
     public function destroy(string $id)
     {
-        
+        $reservation = Reservation::findOrFail($id);
+        Event::where('id', $reservation->event_id)->increment('available_tickets', $reservation->num_tickets);
+        $reservation->delete();
+        return redirect()->route('reservations.index')->with('success', 'Reserva eliminada con éxito.');
     }
 }

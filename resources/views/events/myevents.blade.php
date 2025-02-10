@@ -22,8 +22,12 @@
                         <img src="{{ asset($reservation->qr_code) }}" alt="Codigo QR">
                         <p>{{ $reservation->event->location }}</p>
                         <p>{{ $reservation->event->date_time }}</p>
-                        <p>{{ $reservation->event->price }}</p>
-                        <form action="" method="post">
+                        <p>Precio Total: {{ $reservation->total_price }}</p>
+                        <p>Tickets Reservados: {{ $reservation->num_tickets }}</p>
+                        <p class="{{ $reservation->status === 'pending' ? 'text-red-500' : 'text-green-500' }}">
+                            {{ $reservation->status }}
+                        </p>
+                        <form action="{{ route('reservations.edit', $reservation->id) }}" method="get">
                             @csrf
                             <button type="submit" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600">
                                 Comprar

@@ -16,7 +16,7 @@ class Reservation extends Model
     protected $fillable = [
         'user_id',
         'event_id',
-        'quantity',
+        'num_tickets',
         'total_price',
         'status'
     ];
@@ -37,7 +37,7 @@ class Reservation extends Model
     public function setTotalPriceAttribute()
     {
         if ($this->event) {
-            $this->attributes['total_price'] = $this->quantity * $this->event->price;
+            $this->attributes['total_price'] = $this->num_tickets * $this->event->price;
         }
     }
 

@@ -20,6 +20,11 @@
 </div>
 
 <div class="mb-4">
+    <label for="price">Precio:</label>
+    <input type="number" name="price" id="price" value="{{ isset($event) ? $event->price : '' }}" required><br><br>
+</div>
+
+<div class="mb-4">
     <label for="image_path">Imagen del Evento:</label>
     <input type="file" name="image_path" id="image_path" required><br><br>
 </div>

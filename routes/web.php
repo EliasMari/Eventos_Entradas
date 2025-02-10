@@ -20,14 +20,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/dashboard', [EventController::class, 'index'])->name('dashboard');
-Route::get('/myevents', [EventController::class, 'myevents'])->name('myevents');
-Route::resource('events', EventController::class);
-
 // Ruta para crear una nueva reserva con un ID de evento específico
 Route::get('reservations/{event_id}', [ReservationController::class, 'store'])->name('reservations.store');
+Route::post('/events/{id}/reserveTickets', [ReservationController::class, 'reserveTickets'])->name('reservations.reserveTickets');
 
 // Ruta de recurso para las reservas
 Route::resource('reservations', ReservationController::class)->except(['create']);
+
+Route::get('/dashboard', [EventController::class, 'index'])->name('dashboard');
+Route::resource('events', EventController::class);
 
 require __DIR__.'/auth.php';

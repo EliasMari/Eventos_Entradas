@@ -20,13 +20,12 @@
                         <p>Tickets disponibles: {{ $event->available_tickets }}</p>
                         <p>Fecha: {{ $event->date_time }}</p>
                         <p>Localización: {{ $event->location }}</p>
-                        <form action="{{ route('reservations.store') }}" method="POST" class="inline-block mt-2">
-                                @csrf
-                                <input type="hidden" name="event_id" value="{{ $event->id }}">
-                                <button type="submit" class="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600">
-                                    Añadir
-                                </button>
-                            </form>
+                        <form action="{{ route('events.show', $event->id) }}" method="get">
+                            @csrf
+                            <button type="submit" class="bg-gray-500 text-white py-2 px-4 rounded hover:bg-blue-600">
+                                Ver
+                            </button>
+                        </form>
                         <br>
                         @if(auth()->user() && auth()->user()->hasRole('admin'))
                             <a href="{{ route('events.edit', $event->id) }}" class="inline-block mt-2 bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600">
