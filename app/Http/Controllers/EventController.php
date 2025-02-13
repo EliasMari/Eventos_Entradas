@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
 {
@@ -31,6 +32,11 @@ class EventController extends Controller
     {
         $request->validate([]);
         $event = $request->except('_token');
+
+        if($request->hasFile('image_path')) {
+            $event['image_path'] = $request->file('image_path')->store('uploads', 'public');
+        }
+
         Event::create($event);
         return redirect('dashboard');
         // return response()->json($event);
@@ -60,6 +66,11 @@ class EventController extends Controller
     public function update(Request $request, $id)
     {
         $event = $request->except('_token', '_method');
+        if($request->hasFile('image_path')) {
+            $image = Event::findOrFail($id);
+            Storage::delete(/**'public/'.*/$image->image_path);
+            $event['image_path'] = $request->file('image_path')->store('uploads', 'public');
+        }
         Event::where('id', $id)->update($event);
         return redirect('dashboard');
     }

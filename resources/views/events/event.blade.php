@@ -10,7 +10,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                 <div class="event-item mb-4 p-4 border rounded">
                     <p>{{ $event->description }}</p>
-                    <img src="{{ asset($event->image_path) }}" alt="{{ $event->title }}" class="w-full h-48 object-cover rounded">
+                    <img src="{{ asset('storage').'/'.$event->image_path }}" alt="{{ $event->title }}" class="w-full h-48 object-cover rounded">
                     <p>Precio: ${{ $event->price }}</p>
                     <p>Tickets disponibles: {{ $event->available_tickets }}</p>
                     <p>Fecha: {{ $event->date_time }}</p>

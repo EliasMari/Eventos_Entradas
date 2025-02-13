@@ -12,7 +12,7 @@
                 <div class="flex justify-center items-center h-full w-full">
                     <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative" role="alert">
                         <span class="block sm:inline">No tienes eventos reservados.</span>
-                        <strong class="font-bold"><a href="{{ route('events.index') }}">¡Empiza ya a reservar!</a></strong>
+                        <strong class="font-bold"><a href="{{ route('events.index') }}">¡Empieza ya a reservar!</a></strong>
                     </div>
                 </div>
             @else
@@ -27,19 +27,21 @@
                         <p class="{{ $reservation->status === 'pending' ? 'text-red-500' : 'text-green-500' }}">
                             {{ $reservation->status }}
                         </p>
-                        <form action="{{ route('reservations.edit', $reservation->id) }}" method="get">
-                            @csrf
-                            <button type="submit" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600">
-                                Comprar
-                            </button>
-                        </form>
-                        <form action="{{ route('reservations.destroy', $reservation->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600">
-                                Cancelar
-                            </button>
-                        </form>
+                        @if ($reservation->status === 'pending')
+                            <form action="{{ route('reservations.edit', $reservation->id) }}" method="get">
+                                @csrf
+                                <button type="submit" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600">
+                                    Comprar
+                                </button>
+                            </form>
+                        @endif
+                            <form action="{{ route('reservations.destroy', $reservation->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600">
+                                    Cancelar
+                                </button>
+                            </form>
                     </div>
                 @endforeach  
             @endif

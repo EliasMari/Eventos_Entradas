@@ -26,11 +26,15 @@
 
 <div class="mb-4">
     <label for="image_path">Imagen del Evento:</label>
+    @if(isset($event))
+        <img src="{{asset('storage').'/'.$event->image_path}}"  width="50"  height="50" alt="">
+    @endif
     <input type="file" name="image_path" id="image_path" required><br><br>
 </div>
 
 <div class="mb-4">
     <label for="date_time">Fecha del Evento:</label>
+    <input type="datetime-local" name="date_time" id="date_time" value="{{ isset($event) ? $event->date_time : '' }}" required><br><br>
     <input type="datetime-local" name="date_time" id="date_time" value="{{ isset($event) ? $event->date_time : '' }}" required><br><br>
 </div>
 
