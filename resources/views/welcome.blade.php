@@ -22,17 +22,20 @@
     <body class="font-sans antialiased bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-200">
     <div class="container mx-auto px-6 max-w-7xl">
         <header class="flex justify-between items-center py-6">
-            <div class="flex justify-center">
-                @include('components.application-logo')
+            <div class="w-full text-center">
+                <div class="inline-block">
+                    @include('components.application-logo')
+                </div>
             </div>
+        
             @if (Route::has('login'))
-                <nav class="flex gap-4">
+                <nav class="flex gap-4 ml-auto">
                     @auth
-                        <a href="{{ url('/dashboard') }}" class="px-4 py-2 rounded-lg bg-blue-600 text-white transition hover:bg-blue-500">🚀 Dashboard</a>
+                        <a href="{{ url('/dashboard') }}" class="px-4 py-2 rounded-lg bg-blue-600 text-white transition hover:bg-blue-500 min-w-max">🚀 Dashboard</a>
                     @else
-                        <a href="{{ route('login') }}" class="px-4 py-2 rounded-lg bg-blue-600 text-white transition hover:bg-blue-500">🔑 Log in</a>
+                        <a href="{{ route('login') }}" class="px-4 py-2 rounded-lg bg-blue-600 text-white transition hover:bg-blue-500 min-w-max">🔑 Log in</a>
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="px-4 py-2 rounded-lg bg-rose-300 text-gray-900 transition hover:bg-rose-400">📝 Register</a>
+                            <a href="{{ route('register') }}" class="px-4 py-2 rounded-lg bg-rose-500 text-gray-900 transition hover:bg-rose-400 min-w-max">📝 Register</a>
                         @endif
                     @endauth
                 </nav>
@@ -52,16 +55,15 @@
                 </div>
                 <div class="p-6 bg-white dark:bg-gray-800 shadow-md rounded-lg transition-transform transform hover:scale-105">
                     <h2 class="text-xl font-semibold text-blue-600">2️⃣ Selecciona tus entradas</h2>
-                    <p class="mt-2 text-gray-700 dark:text-gray-300">Escoge la cantidad de entradas y la zona en la que quieres estar.</p>
+                    <p class="mt-2 text-gray-700 dark:text-gray-300">Escoge la cantidad de entradas y reservervalas para no quedarte sin.</p>
                 </div>
                 <div class="p-6 bg-white dark:bg-gray-800 shadow-md rounded-lg transition-transform transform hover:scale-105">
                     <h2 class="text-xl font-semibold text-blue-600">3️⃣ Realiza tu compra</h2>
-                    <p class="mt-2 text-gray-700 dark:text-gray-300">💳 Completa el pago de forma segura y recibe tus entradas en tu correo.</p>
+                    <p class="mt-2 text-gray-700 dark:text-gray-300">💳 Completa el pago de forma segura y recibe tus entradas en tu correo mediante un qr.</p>
                 </div>
             </div>
-        </main>
-        
-        @include('layouts.footer')
+        </main>  
     </div>
+    @include('layouts.footer')
 </body>
 </html>
