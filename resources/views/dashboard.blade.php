@@ -20,6 +20,11 @@
                           @foreach($events as $event)
                               <div class="event-item bg-white shadow-lg rounded-lg p-6 transition-transform transform hover:scale-105 dark:bg-gray-700">
                                   <div class="flex flex-col">
+                                  @if ($event->available_tickets <= 0)
+                                  <div class="absolute inset-0 flex items-center justify-center bg-gradient-to-r from-red-600 to-red-800 bg-opacity-90 text-white font-extrabold text-4xl tracking-widest uppercase animate-pulse shadow-lg border-4 border-white rounded-lg">
+                                        SOLD OUT
+                                    </div>
+                                  @endif
                                       <div class="flex-1 mb-4">
                                           <img src="{{ asset('storage').'/'.$event->image_path }}" alt="{{ $event->title }}" class="w-full h-64 object-cover rounded">
                                       </div>

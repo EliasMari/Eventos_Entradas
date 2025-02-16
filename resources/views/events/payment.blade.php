@@ -12,7 +12,7 @@
                     <h3>Información del Evento</h3>
                     <p><strong>Nombre del Evento:</strong> {{ $reservation->event->title }}</p>
                     <p><strong>Ubicación:</strong> {{ $reservation->event->location }}</p>
-                    <p><strong>Fecha y Hora:</strong> {{ $reservation->event->date_time }}</p>
+                    <p><strong>Fecha y Hora:</strong> {{ \Carbon\Carbon::parse($reservation->event->date_time)->format('d/m/Y H:i') }}</p>
                     <p><strong>Precio Total:</strong> {{ $reservation->total_price }}</p>
                     <p><strong>Tickets Reservados:</strong> {{ $reservation->num_tickets }}</p>
                 </div>

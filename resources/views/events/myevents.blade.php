@@ -19,7 +19,9 @@
                 @foreach ($reservations as $reservation)
                     <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-6 m-1 w-96 min-h-96">
                         <h3 class="text-xl font-semibold text-blue-600 mb-4">{{ $reservation->event->title }}</h3>
-                        <img src="{{ asset($reservation->qr_code) }}" alt="Codigo QR" class="mb-4">
+                        <div class="flex justify-center mb-4">
+                            <img src="{{ asset('storage/' . $reservation->qr_code) }}" alt="Codigo QR" class="mb-4">
+                        </div>
                         <div>
                             <p>📍{{ $reservation->event->location }}</p>
                             <p>📅{{ \Carbon\Carbon::parse($reservation->event->date_time)->format('d/m/Y H:i') }}</p>

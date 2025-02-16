@@ -18,6 +18,7 @@ class Reservation extends Model
         'event_id',
         'num_tickets',
         'total_price',
+        'qr_code',
         'status'
     ];
 

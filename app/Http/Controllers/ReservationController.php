@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Facades\Storage;
 
 class ReservationController extends Controller
 {
@@ -34,11 +36,17 @@ class ReservationController extends Controller
     $reservation = $request->except('_token', '_method');
     $reservation['user_id'] = auth()->user()->id; // Asegúrate de que esto sea correcto
     $reservation['total_price'] = $reservation['num_tickets'] * $reservation['price'];
+    
+    $fileName = 'reservation_' . time() . '.png';
+    $qrCode = QrCode::format('png')->size(300)->generate($reservation['user_id']);
+    Storage::disk('public')->put($fileName, $qrCode);
+    $reservation['qr_code'] = $fileName;
+
     Reservation::create($reservation); // Usa create en lugar de insert para que se manejen los timestamps automáticamente
     Event::where('id', $reservation['event_id'])->decrement('available_tickets', $reservation['num_tickets']);
 
     return redirect('dashboard');
-;
+
 }
 
     /**
