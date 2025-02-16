@@ -38,7 +38,7 @@
 
         <div class="qr-code">
             <p><strong>Su código QR:</strong></p>
-            <img src="{{ $qrCode }}" alt="Código QR">
+            <img src="{{ asset('public/' . $qrCode) }}" alt="Código QR">
         </div>
 
         <p>¡Esperamos que disfrute del evento!</p>

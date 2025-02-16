@@ -81,7 +81,7 @@ class ReservationController extends Controller
         $reservation->update(['status' => 'confirmed']);
 
         // Obtener el QR y la información de la entrada
-        $qrCode = $reservation->qr_code;
+        $qrCode = Storage::disk('public')->url($reservation->qr_code);
         $ticketInfo = "Usuario: " . auth()->user()->name . ", Tickets: " . $reservation->num_tickets; // Cambia esto por la información real
 
         // Enviar el correo
