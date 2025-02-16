@@ -38,7 +38,9 @@ class ReservationController extends Controller
     $reservation['total_price'] = $reservation['num_tickets'] * $reservation['price'];
     
     $fileName = 'reservation_' . time() . '.png';
-    $qrCode = QrCode::format('png')->size(300)->generate($reservation['user_id']);
+    $userName = auth()->user()->name; // Obtén el nombre del usuario
+    $qrContent = "Usuario: $userName, Tickets: {$reservation['num_tickets']}"; // Crea el contenido del QR
+    $qrCode = QrCode::format('png')->size(300)->generate($qrContent);
     Storage::disk('public')->put($fileName, $qrCode);
     $reservation['qr_code'] = $fileName;
 

@@ -27,7 +27,7 @@
                         <input type="hidden" name="event_id" value="{{ $event->id }}">
                         <input type="hidden" name="price" value="{{ $event->price }}">
                         <label for="num_tickets" class="text-white">🎫 Número de tickets: </label>
-                        <input type="number" name="num_tickets" value="1" min="1" class="ml-2 border rounded">
+                        <input type="number" name="num_tickets" value="1" min="1" max="{{ $event->available_tickets }}" class="ml-2 border rounded">
                         <button type="submit" class="bg-rose-500 text-white py-2 px-4 rounded hover:bg-rose-600">
                             ➕
                         </button>    
