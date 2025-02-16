@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\Reservation;
+use App\Mail\PaymentConfirmation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\Storage;
 
 class ReservationController extends Controller
 {
     /**
+     * Display a listing of the resource.
      * Display a listing of the resource.
      */
     public function index()
@@ -73,8 +76,17 @@ class ReservationController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $reservation = Reservation::findOrFail($id);
         $reservation->update(['status' => 'confirmed']);
+
+        // Obtener el QR y la información de la entrada
+        $qrCode = $reservation->qr_code;
+        $ticketInfo = "Usuario: " . auth()->user()->name . ", Tickets: " . $reservation->num_tickets; // Cambia esto por la información real
+
+        // Enviar el correo
+        Mail::to($request->user()->email)->send(new PaymentConfirmation($qrCode, $ticketInfo));
+
         return redirect()->route('reservations.index')->with('success', 'Reserva actualizada con éxito.');
     }
 
