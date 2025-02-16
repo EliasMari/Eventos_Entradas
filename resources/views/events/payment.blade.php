@@ -1,61 +1,46 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-white leading-tight">
-            {{ __('Pago de Entradas') }}
+    <h2 class="font-semibold text-xl text-white leading-tight">
+            {{ __('Payment') }}
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-44">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="text-white">
-                    <h3>Información del Evento</h3>
+    <div class="dark:bg-gray-900 min-h-screen flex justify-center items-center mb-6">
+        <div class="max-w-4xl w-full dark:bg-gray-800 dark:shadow-lg rounded-lg overflow-hidden p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-white">
+                <div>
+                    <h3 class="text-blue-600 font-semibold text-lg">Información del Evento</h3>
                     <p><strong>Nombre del Evento:</strong> {{ $reservation->event->title }}</p>
                     <p><strong>Ubicación:</strong> {{ $reservation->event->location }}</p>
                     <p><strong>Fecha y Hora:</strong> {{ \Carbon\Carbon::parse($reservation->event->date_time)->format('d/m/Y H:i') }}</p>
                     <p><strong>Precio Total:</strong> {{ $reservation->total_price }}</p>
                     <p><strong>Tickets Reservados:</strong> {{ $reservation->num_tickets }}</p>
                 </div>
-
-                <div class="text-white">
-                    <h3 class="mt-4">Formulario de Pago</h3>
-                    <form action="{{ route('reservations.update', $reservation->id) }}" method="POST">
+                <div>
+                    <h3 class="text-blue-600 font-semibold text-lg">Formulario de Pago</h3>
+                    <form action="{{ route('reservations.update', $reservation->id) }}" method="POST" class="mt-4">
                         @csrf
                         @method('PUT')
-                        <div class="form-group">
-                            <label for="payment_method">Método de Pago:</label>
-                            <select name="payment_method" id="payment_method" class="form-control text-black" required onchange="togglePaymentFields()">
-                                <option value="">Seleccione un método</option>
-                                <option value="credit_card">Tarjeta de Crédito</option>
-                                <option value="paypal">PayPal</option>
-                            </select>
+                        <label for="payment_method" class="block font-semibold text-white">Método de Pago:</label>
+                        <select name="payment_method" id="payment_method" class="w-full p-2 border rounded-lg text-gray-800" required onchange="methods()">
+                            <option value="">Seleccione un método</option>
+                            <option value="credit_card">Tarjeta de Crédito</option>
+                            <option value="paypal">PayPal</option>
+                        </select>
+                        
+                        <div id="credit_card_fields" class="mt-4 hidden">
+                            <h4 class="font-semibold text-white">Detalles de la Tarjeta de Crédito</h4>
+                            <input type="text" name="card_number" id="card_number" class="w-full p-2 border rounded-lg text-gray-800 mt-2" placeholder="Número de Tarjeta" required>
+                            <input type="text" name="expiry_date" id="expiry_date" class="w-full p-2 border rounded-lg text-gray-800 mt-2" placeholder="MM/AA" required>
+                            <input type="text" name="cvv" id="cvv" class="w-full p-2 border rounded-lg text-gray-800 mt-2" placeholder="CVV" required>
                         </div>
 
-                        <div id="credit_card_fields" style="display:none;">
-                            <h4>Detalles de la Tarjeta de Crédito</h4>
-                            <div class="form-group">
-                                <label for="card_number">Número de Tarjeta:</label>
-                                <input type="text" name="card_number" id="card_number" class="form-control text-black" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="expiry_date">Fecha de Expiración:</label>
-                                <input type="text" name="expiry_date" id="expiry_date" class="form-control text-black" required placeholder="MM/AA">
-                            </div>
-                            <div class="form-group">
-                                <label for="cvv">CVV:</label>
-                                <input type="text" name="cvv" id="cvv" class="form-control text-black" required>
-                            </div>
+                        <div id="paypal_fields" class="mt-4 hidden">
+                            <h4 class="font-semibold text-white">Detalles de PayPal</h4>
+                            <input type="email" name="paypal_email" id="paypal_email" class="w-full p-2 border rounded-lg text-gray-800 mt-2" placeholder="Correo Electrónico de PayPal" required>
                         </div>
 
-                        <div id="paypal_fields" style="display:none;">
-                            <h4>Detalles de PayPal</h4>
-                            <div class="form-group">
-                                <label for="paypal_email">Correo Electrónico de PayPal:</label>
-                                <input type="email" name="paypal_email" id="paypal_email" class="form-control text-black" required>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 mt-4">
+                        <button type="submit" class="w-full bg-rose-500 text-white py-2 px-4 rounded-lg hover:bg-rose-600 mt-4">
                             Realizar Pago
                         </button>
                     </form>
@@ -65,10 +50,10 @@
     </div>
 
     <script>
-        function togglePaymentFields() {
+        function methods() {
             var method = document.getElementById("payment_method").value;
-            document.getElementById("credit_card_fields").style.display = method === "credit_card" ? "block" : "none";
-            document.getElementById("paypal_fields").style.display = method === "paypal" ? "block" : "none";
+            document.getElementById("credit_card_fields").classList.toggle("hidden", method !== "credit_card");
+            document.getElementById("paypal_fields").classList.toggle("hidden", method !== "paypal");
         }
     </script>
     @include('layouts.footer')

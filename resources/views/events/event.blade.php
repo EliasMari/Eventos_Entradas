@@ -16,11 +16,11 @@
                 
                 <!-- Div para los detalles del evento -->
                 <div class="md:w-1/2 p-4">
-                    <p class="text-white">📝 Descripción: {{ $event->description }}</p>
-                    <p class="text-white">📅 Fecha: {{ \Carbon\Carbon::parse($event->date_time)->format('d/m/Y H:i') }}</p>
-                    <p class="text-white">📍 Localización: {{ $event->location }}</p>
-                    <p class="text-white">🎟️ Tickets disponibles: {{ $event->available_tickets }}</p>
-                    <p class="text-white">💰 Precio: {{ $event->price }}€</p>
+                    <p class="text-white mb-4">📝 Descripción: {{ $event->description }}</p>
+                    <p class="text-white mb-4">📅 Fecha: {{ \Carbon\Carbon::parse($event->date_time)->format('d/m/Y H:i') }}</p>
+                    <p class="text-white mb-4">📍 Localización: {{ $event->location }}</p>
+                    <p class="text-white mb-4">🎟️ Tickets disponibles: {{ $event->available_tickets }}</p>
+                    <p class="text-white mb-4">💰 Precio: {{ $event->price }}€</p>
                     <br>
                     <form action="{{ route('reservations.store') }}" method="POST" class="inline-block mt-2">
                         @csrf
