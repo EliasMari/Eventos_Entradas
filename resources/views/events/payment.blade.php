@@ -22,7 +22,7 @@
                         @csrf
                         @method('PUT')
                         <label for="payment_method" class="block font-semibold text-white">Método de Pago:</label>
-                        <select name="payment_method" id="payment_method" class="w-full p-2 border rounded-lg text-gray-800" required onchange="methods()">
+                        <select name="payment_method" id="payment_method" class="w-full p-2 border rounded-lg text-gray-800" onchange="methods()">
                             <option value="">Seleccione un método</option>
                             <option value="credit_card">Tarjeta de Crédito</option>
                             <option value="paypal">PayPal</option>
@@ -30,14 +30,14 @@
                         
                         <div id="credit_card_fields" class="mt-4 hidden">
                             <h4 class="font-semibold text-white">Detalles de la Tarjeta de Crédito</h4>
-                            <input type="text" name="card_number" id="card_number" class="w-full p-2 border rounded-lg text-gray-800 mt-2" placeholder="Número de Tarjeta" required>
-                            <input type="text" name="expiry_date" id="expiry_date" class="w-full p-2 border rounded-lg text-gray-800 mt-2" placeholder="MM/AA" required>
-                            <input type="text" name="cvv" id="cvv" class="w-full p-2 border rounded-lg text-gray-800 mt-2" placeholder="CVV" required>
+                            <input type="text" name="card_number" id="card_number" class="w-full p-2 border rounded-lg text-gray-800 mt-2" placeholder="Número de Tarjeta">
+                            <input type="text" name="expiry_date" id="expiry_date" class="w-full p-2 border rounded-lg text-gray-800 mt-2" placeholder="MM/AA">
+                            <input type="text" name="cvv" id="cvv" class="w-full p-2 border rounded-lg text-gray-800 mt-2" placeholder="CVV">
                         </div>
 
                         <div id="paypal_fields" class="mt-4 hidden">
                             <h4 class="font-semibold text-white">Detalles de PayPal</h4>
-                            <input type="email" name="paypal_email" id="paypal_email" class="w-full p-2 border rounded-lg text-gray-800 mt-2" placeholder="Correo Electrónico de PayPal" required>
+                            <input type="email" name="paypal_email" id="paypal_email" class="w-full p-2 border rounded-lg text-gray-800 mt-2" placeholder="Correo Electrónico de PayPal">
                         </div>
 
                         <button type="submit" class="w-full bg-rose-500 text-white py-2 px-4 rounded-lg hover:bg-rose-600 mt-4">
