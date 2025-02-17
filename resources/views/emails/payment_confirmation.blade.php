@@ -26,22 +26,21 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Confirmación de Pago</h1>
-        <p>Estimado usuario,</p>
-        <p>Gracias por su pago. A continuación, encontrará su información de entrada:</p>
-        
-        <div class="ticket-info">
-            <p><strong>Información de la entrada:</strong></p>
-            <p>{{ $ticketInfo }}</p>
+    <div style="background-color: #f7fafc; padding: 24px;">
+        <div style="max-width: 600px; margin: auto; background-color: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 24px;">
+            <h1 style="font-size: 24px; font-weight: bold; text-align: center; color: #2d3748;">Confirmación de Pago</h1>
+            <p style="margin-top: 16px; color: #4a5568;">Estimado {{ $ticketInfo['usuario'] }},</p>
+            <p style="margin-top: 8px; color: #4a5568;">Gracias por su pago. A continuación, encontrará su información de entrada:</p>
+            
+            <div style="margin-top: 16px; padding: 16px; border: 1px solid #cbd5e0; border-radius: 8px;">
+                <p style="font-weight: bold;">Información de la entrada:</p>
+                <p style="color: #4a5568;">Evento: {{ $ticketInfo['evento'] }}</p>
+                <p style="color: #4a5568;">Fecha y hora: {{ $ticketInfo['fecha_hora'] }}</p>
+                <p style="color: #4a5568;">Número de entradas: {{ $ticketInfo['num_tickets'] }}</p>
+            </div>
+    
+            <p style="margin-top: 16px; color: #4a5568; text-align: center;">¡Esperamos que disfrute del evento!</p>
         </div>
-
-        <div class="qr-code">
-            <p><strong>Su código QR:</strong></p>
-            <img src="{{ asset('public/' . $qrCode) }}" alt="Código QR">
-        </div>
-
-        <p>¡Esperamos que disfrute del evento!</p>
     </div>
 </body>
 </html>

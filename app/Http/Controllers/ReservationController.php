@@ -81,13 +81,24 @@ class ReservationController extends Controller
         $reservation->update(['status' => 'confirmed']);
 
         // Obtener el QR y la información de la entrada
-        $qrCode = Storage::disk('public')->url($reservation->qr_code);
-        $ticketInfo = "Usuario: " . auth()->user()->name . ", Tickets: " . $reservation->num_tickets; // Cambia esto por la información real
+        //$qrCode = Storage::disk('public')->url($reservation->qr_code);
+        // Obtener la información de la entrada
+        try {
+            $event = Event::find($reservation->event_id); // Asegúrate de que tienes el evento
+            $ticketInfo = [
+                'usuario' => auth()->user()->name,
+                'num_tickets' => $reservation->num_tickets,
+                'evento' => $event->title,
+                'fecha_hora' => $event->date_time,
+            ];
 
-        // Enviar el correo
-        Mail::to($request->user()->email)->send(new PaymentConfirmation($qrCode, $ticketInfo));
-
-        return redirect()->route('reservations.index')->with('success', 'Reserva actualizada con éxito.');
+            // Enviar el correo
+            Mail::to($request->user()->email)->send(new PaymentConfirmation($ticketInfo));
+        } catch (\Throwable $th) {
+            //throw $th;
+        } finally {
+            return redirect()->route('reservations.index');
+        }
     }
 
     /**

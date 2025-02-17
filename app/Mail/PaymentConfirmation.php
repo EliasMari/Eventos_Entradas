@@ -12,15 +12,13 @@ class PaymentConfirmation extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $qrCode;
     public $ticketInfo;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($qrCode, $ticketInfo)
+    public function __construct($ticketInfo)
     {
-        $this->qrCode = $qrCode;
         $this->ticketInfo = $ticketInfo;
     }
 
